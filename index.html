@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <title>Rolned Кликер</title>
+    <link rel="icon" href="./skin-avatar.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="author" content="Rolned">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background-color: #0F0F0F;
+            color: #FFFFFF;
+            font-family: 'Roboto', 'Arial Unicode MS', Arial, sans-serif;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .name {
+            display: flex;
+            justify-content: center;
+            text-shadow: 0 0 10px #16C1D8;
+        }
+
+        .img {
+            display: flex;
+            justify-content: center;
+        }
+
+        .score {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .button button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #272727;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .img img {
+            max-width: 100%;
+            height: auto;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .update {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .update button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #272727;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="name">
+            <h1>
+                Rolned кликер
+            </h1>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="img">
+                <img src="skin-avatar.ico" width="300" height="300" id="image" style="cursor:pointer;"
+                    draggable="false">
+            </div>
+        </section>
+
+        <section>
+            <div class="score">
+                <h2>Вы нажали: <span id="check">0</span></h2>
+            </div>
+        </section>
+
+        <section>
+            <div class="button">
+                <button id="button">Улучшение: 1 клик = 2 очка
+                    <br>
+                    Цена: 100 Очков
+                </button>
+            </div>
+        </section>
+
+        <section>
+            <div class="update">
+                <button id="update">
+                    Улучшение: Авто-кликер(1 клик в 1 секунду)
+                    <br>
+                    Цена: 500 Очков
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let count = 0;
+        let clickPower = 1;
+        let autoClicks = 0;
+        let upgradeCost = 100;
+
+        const clickImage = document.getElementById('image');
+        const scoreDisplay = document.getElementById('check');
+        const upgradeButton = document.getElementById('button');
+        const autoButton = document.getElementById('update');
+
+        clickImage.addEventListener('click', () => {
+            count = count + clickPower;
+            console.log('Очки:' + count);
+            scoreDisplay.textContent = count;
+        });
+
+        upgradeButton.addEventListener('click', () => {
+            if (count >= upgradeCost) {
+                count = count - upgradeCost;
+                clickPower = clickPower + 1;
+                upgradeCost = upgradeCost + 100;
+
+                scoreDisplay.textContent = count;
+                upgradeButton.innerHTML = "Улучшение: 1 клик = " + (clickPower + 1) + " очка<br>Цена: " + upgradeCost + " Очков";
+            }
+            else {
+                alert('Не хватает очков! Надо ' + upgradeCost);
+            }
+        });
+
+        autoButton.addEventListener('click', () => {
+            if (count >= 500) {
+                count = count - 500;
+                autoClicks = autoClicks + 1;
+
+                scoreDisplay.textContent = count;
+                autoButton.textContent = "Куплено! Автокликер: +" + autoClicks + "/сек";
+                autoButton.disabled = true;
+            } else {
+                alert('Не хватает очков! Надо 500');
+            }
+        });
+
+        setInterval(() => {
+            if (autoClicks > 0) {
+                count = count + autoClicks;
+                scoreDisplay.textContent = count;
+            }
+        }, 1000);
+
+
+
+    </script>
+
+</body>
+
+</html>
